@@ -93,6 +93,27 @@ Y en `pocketstore-datos-v1` se guarda la respuesta de la API:
 
 ![App funcionando sin conexión](img/07-offline.png)
 
+### Sin conexión y sin datos guardados
+
+También probé qué pasa si el App Shell está en caché pero los datos de la API no. Para eso borré `pocketstore-datos-v1`, puse la red en **Offline** y recargué. La app carga igual (el shell sale de la caché) y muestra un mensaje de error en lugar de quedarse en blanco:
+
+![Sin conexión y sin datos en caché](img/08-offline-sin-datos.png)
+
+Cosas que encontré haciendo esta prueba:
+
+- En Firefox los datos seguían apareciendo aunque borrara la caché. Era porque JSONPlaceholder manda `Cache-Control: max-age=43200` y el navegador tenía la respuesta en su **caché HTTP**, entonces el `fetch()` del SW "funcionaba" aunque no hubiera red. Se soluciona marcando **Disable Cache** en la pestaña Network.
+- En Chrome, al usar **Offline** desde DevTools, `navigator.onLine` seguía en `true` después de recargar y el indicador decía "En línea". Por eso en `app.js` también se marca "Sin conexión" cuando el `fetch` falla.
+
+## Instalación
+
+Como la app tiene manifiesto y Service Worker, Chrome muestra el botón para instalarla en la barra de direcciones:
+
+![Instalar la app](img/09-instalar.png)
+
+Ya instalada se abre en su propia ventana, sin la barra del navegador, por el `display: "standalone"` del manifiesto:
+
+![App instalada](img/10-instalada.png)
+
 ## Tecnologías
 
 - HTML5

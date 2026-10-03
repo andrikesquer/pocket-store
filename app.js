@@ -40,6 +40,9 @@ async function cargarUsuarios() {
     console.log(error);
     lista.innerHTML = '';
     mensaje.textContent = 'No se pudo cargar el catálogo. Conéctate a internet al menos una vez.';
+    // navigator.onLine no siempre es confiable, si el fetch falla lo marcamos sin conexion
+    estado.textContent = 'Sin conexión';
+    estado.classList.add('offline');
   }
 }
 
