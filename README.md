@@ -34,6 +34,10 @@ o con la extensión **Live Server** de VS Code. Después abrir `http://localhost
 
 Lo escribí a mano. Tiene el `name`, `short_name`, `start_url`, `display: "standalone"` para que se abra como app sin la barra del navegador, los colores (`theme_color` verde `#2e7d32` y `background_color` gris claro) y dos iconos de 192x192 y 512x512.
 
+En Firefox se puede revisar en DevTools → **Application** → **Manifest**, ahí aparecen los datos que leyó el navegador:
+
+![Manifest en Firefox](img/04-manifest.png)
+
 ### 2. El App Shell (`index.html` y `styles.css`)
 
 La estructura es fija y sencilla:
@@ -60,6 +64,18 @@ Se programaron los tres eventos del ciclo de vida:
   - **Network First** para la API (`jsonplaceholder.typicode.com`): intenta traer los datos de internet y guarda una copia en `pocketstore-datos-v1`. Si no hay red, responde con lo que haya en caché.
   - **Cache First** para el App Shell: si el archivo ya está en caché lo regresa de ahí, si no lo pide a la red.
 
+El SW queda registrado para `127.0.0.1:5500` (DevTools → **Application** → **Service Workers**). Aparece como "Stopped" porque el navegador lo duerme cuando no lo está usando y lo vuelve a despertar cuando hay una petición:
+
+![Service Worker registrado](img/03-service-worker.png)
+
+En la pestaña **Storage** → **Cache Storage** se ven las dos cachés que crea el SW. En `pocketstore-shell-v1` están todos los archivos del App Shell:
+
+![Caché del App Shell](img/06-cache-shell.png)
+
+Y en `pocketstore-datos-v1` se guarda la respuesta de la API:
+
+![Caché de los datos de la API](img/05-cache-datos.png)
+
 ### 4. Contenido dinámico (`app.js`)
 
 - Registra el Service Worker.
@@ -70,9 +86,12 @@ Se programaron los tres eventos del ciclo de vida:
 ## Prueba sin conexión
 
 1. Abrir la app con internet una vez para que se guarde todo en caché.
-2. En DevTools → **Application** → **Service Workers**, verificar que el SW esté activo.
-3. En **Cache Storage** se ven las dos cachés: `pocketstore-shell-v1` y `pocketstore-datos-v1`.
-4. En la pestaña **Network** marcar **Offline** y recargar. La app sigue mostrando el catálogo y el indicador cambia a "Sin conexión".
+2. En DevTools → **Application** → **Service Workers**, verificar que el SW esté registrado.
+3. En **Storage** → **Cache Storage** revisar que existan `pocketstore-shell-v1` y `pocketstore-datos-v1`.
+4. Quitar la conexión. En Firefox: menú **File** → **Work Offline** (o en DevTools → **Network**, en el menú de "No Throttling" elegir **Offline**).
+5. Recargar la página. La app sigue mostrando el catálogo y el indicador cambia a "Sin conexión".
+
+![App funcionando sin conexión](img/07-offline.png)
 
 ## Tecnologías
 
