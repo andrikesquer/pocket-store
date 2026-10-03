@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2e7d32">
+  <meta name="description" content="PocketStore, catálogo offline hecho con Vanilla JS">
+  <title>PocketStore</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Barra superior -->
+  <header class="topbar">
+    <h1>PocketStore</h1>
+    <span id="estado" class="estado">...</span>
+  </header>
+
+  <!-- Contenedor principal, aqui se pinta el contenido dinamico -->
+  <main class="contenedor">
+    <div class="buscador">
+      <input type="text" id="buscar" placeholder="Buscar por nombre o ciudad...">
+      <button id="btnRecargar">Recargar</button>
+    </div>
+
+    <p id="mensaje" class="mensaje">Cargando catálogo...</p>
+
+    <section id="lista" class="lista"></section>
+  </main>
+
+  <!-- Pie de pagina -->
+  <footer class="footer">
+    <p>PocketStore &copy; 2026 - Práctica PWA</p>
+    <p class="fuente">Datos: JSONPlaceholder</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
